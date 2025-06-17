@@ -1,0 +1,17 @@
+[org 0x001]
+;  some code here ...
+; 25 h in ax reg
+mov ax,25H
+;mov bx,0
+;mov cx,0
+mov cx,ax
+mov ax,bx
+mov bx,cx
+; swap done
+mov cx,[0x270]
+; moving data at ... in cx
+num: db 12,25,10
+; loading contents of num in ax reg
+mov ax,[num]
+mov ax, 0x4c00
+int 21h

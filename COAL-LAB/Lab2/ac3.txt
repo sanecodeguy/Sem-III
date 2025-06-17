@@ -1,0 +1,6 @@
+[org 0x001]
+; SOME CODE HERE	
+mov ax,200h
+mov bx,150h
+mov ax, 0x4c00
+int 21h

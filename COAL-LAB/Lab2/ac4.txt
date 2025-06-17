@@ -1,0 +1,11 @@
+[org 0x001]
+mov ax,0
+mov bx,[Array]
+mov cx,12
+mov dx,2
+l1: add ax,[bx+dx]
+sub cx,1
+jnz l1
+Array : dw 111,999,888,888,11,99,88,88,1,9,8,8
+mov ax, 0x4c00
+int 21h

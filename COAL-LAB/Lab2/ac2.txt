@@ -1,0 +1,21 @@
+[org 0x001]
+; some code here huihuihuihuihuhiuhi
+mov ax,[n1]
+add ax,[n2]
+add ax,[n3]
+add ax,[n4]
+add ax,[n5]
+mov [total],ax
+mov bx,[n]
+mov cx,5
+l:
+mov ax,[bx]
+mov bx,2
+sub cx,1
+jnz l
+mov [sum],ax
+n: dw 10,20,30,40,50
+sum: dw 0
+total: dw 0
+mov ax, 0x4c00
+int 21h

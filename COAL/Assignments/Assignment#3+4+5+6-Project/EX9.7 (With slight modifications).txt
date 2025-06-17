@@ -1,0 +1,79 @@
+[org 0x0100]
+
+		jmp start
+
+tickcount:	dd	0
+
+printnum:	push bp
+		mov bp, sp
+		push es
+		push ax
+		push bx
+		push cx
+		push dx
+		push di
+
+		mov ax, 0xb800
+		mov es, ax
+		mov ax, [bp+4]
+		mov bx, 10
+		mov cx, 0
+
+nextdigit:	mov dx, 0
+		div bx
+		add dl, 0x30
+		push dx
+		inc cx
+		cmp ax, 0
+		jnz nextdigit
+
+		mov di, 140
+
+nextpos:	pop dx
+		mov dh, 0x07
+		mov [es:di], dx
+		add di, 2
+		loop nextpos
+
+		pop di
+		pop dx
+		pop cx
+		pop bx
+		pop ax
+		pop es
+		pop bp
+		ret 2
+
+timer:		push ax
+
+		inc word [cs:tickcount]
+		mov ax, [cs:tickcount]
+		mov dx, 0
+		mov bx, 10
+		div bx
+		cmp dx, 0
+		jne end_timer
+
+		push word [cs:tickcount]
+		call printnum
+
+end_timer:	mov al, 0x20
+		out 0x20, al
+
+		pop ax
+		iret
+
+start:		xor ax, ax
+		mov es, ax
+		cli
+		mov word [es:8*4], timer
+		mov [es:8*4+2], cs
+		sti
+
+		mov dx, start
+		add dx, 15
+		mov cl, 4
+		shr dx, cl
+
+		mov ax, 0x3100
+		int 0x21
